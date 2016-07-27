@@ -39,6 +39,15 @@
 			android:summary="@string/app_version"
 			/>
 		<Preference
+			android:title="@string/pref_title_url"
+			android:summary="@string/text_url"
+			>
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="@string/text_url"
+				/>
+		</Preference>
+		<Preference
 			android:title="@string/pref_title_author"
 			android:summary="@string/text_author"
 			/>
