@@ -17,8 +17,6 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
-	private static final String PACKAGE_NAME = ModCallRecording.class.getPackage().getName();
-
 	private static final String PACKAGE_DIALER = "com.android.dialer";
 	private static final String CALL_RECORDING_SERVICE = "com.android.services.callrecorder.CallRecorderService";
 	private static final String CALL_BUTTON_PRESENTER = "com.android.incallui.CallButtonPresenter";
@@ -41,7 +39,7 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	@Override
 	public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
 		if (PACKAGE_DIALER.equals(resparam.packageName)) {
-			XSharedPreferences prefs = new XSharedPreferences(PACKAGE_NAME);
+			XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
 			if (!prefs.getBoolean(PREF_RECORD_ENABLE, true)) {
 				return;
 			}
@@ -56,7 +54,7 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if (PACKAGE_DIALER.equals(lpparam.packageName)) {
-			XSharedPreferences prefs = new XSharedPreferences(PACKAGE_NAME);
+			XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
 			if (!prefs.getBoolean(PREF_RECORD_ENABLE, true)) {
 				return;
 			}
