@@ -56,6 +56,14 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 					}
 				}
 			});
+			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "generateFilename", String.class, new XC_MethodHook() {
+				@Override
+				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+					String result = (String) param.getResult();
+					String trim = result.trim();
+					param.setResult(trim);
+				}
+			});
 		}
 	}
 }
