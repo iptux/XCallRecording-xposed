@@ -30,6 +30,15 @@
 			android:dependency="record_enabled"
 			android:defaultValue="true"
 			/>
+		<EditTextPreference
+			android:title="@string/pref_title_record_delay"
+			android:summary="@string/pref_summery_record_delay"
+			android:key="record_delay"
+			android:dependency="record_enabled"
+			android:numeric="integer"
+			android:maxLength="4"
+			android:defaultValue="100"
+			/>
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="@string/pref_title_about"

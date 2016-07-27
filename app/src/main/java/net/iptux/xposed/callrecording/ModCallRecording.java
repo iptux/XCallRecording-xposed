@@ -26,6 +26,7 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	private static final String PREF_FORCE_AUDIO_SOURCE = "force_audio_source";
 	private static final String PREF_RECORD_INCOMING = "record_incoming";
 	private static final String PREF_RECORD_OUTGOING = "record_outgoing";
+	private static final String PREF_RECORD_DELAY = "record_delay";
 
 	private static final String CALL_STATE_INCALL = "INCALL";
 	private static final String CALL_STATE_INCOMING = "INCOMING";
@@ -62,6 +63,7 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 			final boolean force_audio_source = prefs.getBoolean(PREF_FORCE_AUDIO_SOURCE, false);
 			final boolean isRecordIncoming = prefs.getBoolean(PREF_RECORD_INCOMING, true);
 			final boolean isRecordOutgoing = prefs.getBoolean(PREF_RECORD_OUTGOING, true);
+			final int recordDelay = Integer.parseInt(prefs.getString(PREF_RECORD_DELAY, "100"));
 
 			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "isEnabled", Context.class, new XC_MethodHook() {
 				@Override
@@ -109,11 +111,11 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 					if (sRecordIncoming && isRecordIncoming) {
-						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, 100);
+						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, recordDelay);
 						sRecordIncoming = false;
 					}
 					if (sRecordOutgoing && isRecordOutgoing) {
-						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, 100);
+						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, recordDelay);
 						sRecordOutgoing = false;
 					}
 				}
