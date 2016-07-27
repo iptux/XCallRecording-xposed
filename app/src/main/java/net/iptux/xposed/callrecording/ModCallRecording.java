@@ -24,9 +24,11 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
 		if (PACKAGE_DIALER.equals(resparam.packageName)) {
 			XSharedPreferences prefs = new XSharedPreferences(PACKAGE_NAME);
-			if (prefs.getBoolean(PREF_RECORD_ENABLE, true)) {
-				resparam.res.setReplacement(PACKAGE_DIALER, "bool", "call_recording_enabled", true);
+			if (!prefs.getBoolean(PREF_RECORD_ENABLE, true)) {
+				return;
 			}
+
+			resparam.res.setReplacement(PACKAGE_DIALER, "bool", "call_recording_enabled", true);
 			if (prefs.getBoolean(PREF_FORCE_AUDIO_SOURCE, false)) {
 				resparam.res.setReplacement(PACKAGE_DIALER, "integer", "call_recording_audio_source", MediaRecorder.AudioSource.VOICE_CALL);
 			}
@@ -37,15 +39,16 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if (PACKAGE_DIALER.equals(lpparam.packageName)) {
 			XSharedPreferences prefs = new XSharedPreferences(PACKAGE_NAME);
-			final boolean isEnabled = prefs.getBoolean(PREF_RECORD_ENABLE, true);
+			if (!prefs.getBoolean(PREF_RECORD_ENABLE, true)) {
+				return;
+			}
+
 			final boolean force_audio_source = prefs.getBoolean(PREF_FORCE_AUDIO_SOURCE, false);
 
 			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "isEnabled", Context.class, new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-					if (isEnabled) {
-						param.setResult(Boolean.TRUE);
-					}
+					param.setResult(Boolean.TRUE);
 				}
 			});
 			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioSource", new XC_MethodHook() {
