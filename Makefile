@@ -25,7 +25,9 @@ $(eval $(call GRADLE_TARGET,debug,assembleDebug,$(1)))
 $(eval $(call GRADLE_TARGET,release,assembleRelease,$(1)))
 $(eval $(call GRADLE_TARGET,clean,clean,$(1)))
 $(eval $(call GRADLE_TARGET,install,installDebug,$(1)))
+$(eval $(call GRADLE_TARGET,installr,installRelease,$(1)))
 $(eval $(call GRADLE_TARGET,uninstall,uninstallDebug,$(1)))
+$(eval $(call GRADLE_TARGET,uninstallr,uninstallRelease,$(1)))
 endef
 
 $(call GRADLE_ANDROID,)
