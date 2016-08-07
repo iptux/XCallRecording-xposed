@@ -3,27 +3,27 @@
 	<PreferenceCategory
 		android:title="@string/pref_title_call_recording"
 		>
-		<CheckBoxPreference
+		<SwitchPreference
 			android:title="@string/pref_title_is_enable"
 			android:summary="@string/pref_summery_is_enable"
 			android:key="record_enabled"
 			android:defaultValue="true"
 			/>
-		<CheckBoxPreference
+		<SwitchPreference
 			android:title="@string/pref_title_force_audio_source"
 			android:summary="@string/pref_summery_force_audio_source"
 			android:key="force_audio_source"
 			android:dependency="record_enabled"
 			android:defaultValue="false"
 			/>
-		<CheckBoxPreference
+		<SwitchPreference
 			android:title="@string/pref_title_record_incoming"
 			android:summary="@string/pref_summery_record_incoming"
 			android:key="record_incoming"
 			android:dependency="record_enabled"
 			android:defaultValue="true"
 			/>
-		<CheckBoxPreference
+		<SwitchPreference
 			android:title="@string/pref_title_record_outgoing"
 			android:summary="@string/pref_summery_record_outgoing"
 			android:key="record_outgoing"
