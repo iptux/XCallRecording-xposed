@@ -10,7 +10,6 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
@@ -22,12 +21,6 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	private static final String CALL_BUTTON_PRESENTER = "com.android.incallui.CallButtonPresenter";
 	private static final String CALL_BUTTON_FRAGMENT = "com.android.incallui.CallButtonFragment";
 
-	private static final String PREF_RECORD_ENABLE = "record_enabled";
-	private static final String PREF_FORCE_AUDIO_SOURCE = "force_audio_source";
-	private static final String PREF_RECORD_INCOMING = "record_incoming";
-	private static final String PREF_RECORD_OUTGOING = "record_outgoing";
-	private static final String PREF_RECORD_DELAY = "record_delay";
-
 	private static final String CALL_STATE_INCALL = "INCALL";
 	private static final String CALL_STATE_INCOMING = "INCOMING";
 	private static final String CALL_STATE_OUTGOING = "OUTGOING";
@@ -36,45 +29,31 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	private static boolean sRecordIncoming = false;
 	private static boolean sRecordOutgoing = false;
 	private static String sRecordButtonFieldName = null;
+	private static Settings sSettings = Settings.getInstance();
 
 	@Override
 	public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
 		if (PACKAGE_DIALER.equals(resparam.packageName)) {
-			XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
-			if (!prefs.getBoolean(PREF_RECORD_ENABLE, true)) {
-				return;
-			}
-
 			resparam.res.setReplacement(PACKAGE_DIALER, "bool", "call_recording_enabled", true);
-			if (prefs.getBoolean(PREF_FORCE_AUDIO_SOURCE, false)) {
-				resparam.res.setReplacement(PACKAGE_DIALER, "integer", "call_recording_audio_source", MediaRecorder.AudioSource.VOICE_CALL);
-			}
+			resparam.res.setReplacement(PACKAGE_DIALER, "integer", "call_recording_audio_source", MediaRecorder.AudioSource.VOICE_CALL);
 		}
 	}
 
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if (PACKAGE_DIALER.equals(lpparam.packageName)) {
-			XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
-			if (!prefs.getBoolean(PREF_RECORD_ENABLE, true)) {
-				return;
-			}
-
-			final boolean force_audio_source = prefs.getBoolean(PREF_FORCE_AUDIO_SOURCE, false);
-			final boolean isRecordIncoming = prefs.getBoolean(PREF_RECORD_INCOMING, true);
-			final boolean isRecordOutgoing = prefs.getBoolean(PREF_RECORD_OUTGOING, true);
-			final int recordDelay = Integer.parseInt(prefs.getString(PREF_RECORD_DELAY, "100"));
-
 			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "isEnabled", Context.class, new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-					param.setResult(Boolean.TRUE);
+					sSettings.reload();
+					param.setResult(sSettings.isRecordEnable() ? Boolean.TRUE : Boolean.FALSE);
 				}
 			});
 			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioSource", new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-					if (force_audio_source) {
+					sSettings.reload();
+					if (sSettings.forceAudioSource()) {
 						param.setResult(MediaRecorder.AudioSource.VOICE_CALL);
 					}
 				}
@@ -110,12 +89,13 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 			XposedBridge.hookAllMethods(CallButtonFragment, "setEnabled", new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-					if (sRecordIncoming && isRecordIncoming) {
-						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, recordDelay);
+					sSettings.reload();
+					if (sRecordIncoming && sSettings.isRecordIncoming()) {
+						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, sSettings.getRecordDelay());
 						sRecordIncoming = false;
 					}
-					if (sRecordOutgoing && isRecordOutgoing) {
-						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, recordDelay);
+					if (sRecordOutgoing && sSettings.isRecordOutgoing()) {
+						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, sSettings.getRecordDelay());
 						sRecordOutgoing = false;
 					}
 				}
