@@ -25,6 +25,7 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	private static final String CALL_STATE_INCOMING = "INCOMING";
 	private static final String CALL_STATE_OUTGOING = "OUTGOING";
 
+	private static int sCallingStateParamIndex = 1;
 	private static String sCallingState = "";
 	private static boolean sRecordIncoming = false;
 	private static boolean sRecordOutgoing = false;
@@ -66,11 +67,12 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 					param.setResult(trim);
 				}
 			});
+
 			final Class<?> CallButtonPresenter = XposedHelpers.findClass(CALL_BUTTON_PRESENTER, lpparam.classLoader);
 			XposedBridge.hookAllMethods(CallButtonPresenter, "onStateChange", new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-					updateCallState(param.args[0]);
+					updateCallState(param.args[sCallingStateParamIndex]);
 				}
 			});
 
@@ -83,6 +85,7 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 				sRecordButtonFieldName = "mCallRecordButton";
 			} else if (version >= Build.VERSION_CODES.KITKAT) {
 				sRecordButtonFieldName = "mRecordButton";
+				sCallingStateParamIndex = 0;
 			} else {
 				// not support
 			}
