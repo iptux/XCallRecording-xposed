@@ -119,6 +119,13 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	}
 
 	void startRecordingByClickView(Object obj, String name, long delayMillis) throws Throwable {
+		if (!CALL_STATE_INCALL.equals(sCallingState)) {
+			return;
+		}
+		clickView(obj, name, delayMillis);
+	}
+
+	void clickView(Object obj, String name, long delayMillis) throws Throwable {
 		final View view = (View) getObjectField(obj, name);
 		if (null == view)
 			return;
