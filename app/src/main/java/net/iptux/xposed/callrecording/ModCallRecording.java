@@ -34,6 +34,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if (PACKAGE_DIALER.equals(lpparam.packageName)) {
+			Utility.d("handleLoadPackage: packageName=%s", lpparam.packageName);
 			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "isEnabled", Context.class, new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
@@ -101,6 +102,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 		if (sCallingState.equals(newState))
 			return;
 
+		Utility.d("updateCallState: newState=%s", newState);
 		if (CALL_STATE_INCALL.equals(newState)) {
 			if (CALL_STATE_INCOMING.equals(sCallingState)) {
 				sRecordIncoming = true;
@@ -131,6 +133,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 
 	void clickView(Object obj, String name, long delayMillis) throws Throwable {
 		final View view = (View) getObjectField(obj, name);
+		Utility.d("clickView: name=%s, delayMillis=%d", name, delayMillis);
 		if (null == view)
 			return;
 
@@ -145,6 +148,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 			public void run() {
 				try {
 					view.performClick();
+					Utility.d("recording button clicked");
 				}
 				catch (Throwable e) {
 					XposedBridge.log(e);
