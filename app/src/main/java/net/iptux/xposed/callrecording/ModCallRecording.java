@@ -19,6 +19,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	private static final String CALL_BUTTON_PRESENTER = "com.android.incallui.CallButtonPresenter";
 	private static final String CALL_BUTTON_FRAGMENT = "com.android.incallui.CallButtonFragment";
 
+	private static final String CALL_STATE_NO_CALLS = "NO_CALLS";
 	private static final String CALL_STATE_INCALL = "INCALL";
 	private static final String CALL_STATE_INCOMING = "INCOMING";
 	private static final String CALL_STATE_OUTGOING = "OUTGOING";
@@ -114,6 +115,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 			} else if (CALL_STATE_OUTGOING.equals(sCallingState)) {
 				sRecordOutgoing = true;
 			}
+		} else if (CALL_STATE_NO_CALLS.equals(newState)) {
+			sRecordIncoming = false;
+			sRecordOutgoing = false;
 		}
 		sCallingState = newState;
 	}
