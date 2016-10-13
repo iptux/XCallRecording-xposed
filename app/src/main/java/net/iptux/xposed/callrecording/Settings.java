@@ -9,12 +9,12 @@ class Settings {
 	private static final String PREF_RECORD_OUTGOING = "record_outgoing";
 	private static final String PREF_RECORD_DELAY = "record_delay";
 
-	static Settings instance = null;
+	private static class SingletonHelper {
+		private static final Settings INSTANCE = new Settings();
+	}
+
 	static Settings getInstance() {
-		if (null == instance) {
-			instance = new Settings();
-		}
-		return instance;
+		return SingletonHelper.INSTANCE;
 	}
 
 	XSharedPreferences prefs;
