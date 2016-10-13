@@ -134,6 +134,12 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 		if (null == view)
 			return;
 
+		if (!Utility.isExternalStorageAvailable()) {
+			String warning = "External storage not available, recording will not start!";
+			Utility.showToast(view.getContext(), warning);
+			return;
+		}
+
 		view.postDelayed(new Runnable() {
 			@Override
 			public void run() {
