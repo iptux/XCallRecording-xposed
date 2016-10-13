@@ -90,15 +90,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					if (!isEnabled) {
 						return;
 					}
-					sSettings.reload();
-					if (sRecordIncoming && sSettings.isRecordIncoming()) {
-						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, sSettings.getRecordDelay());
-						sRecordIncoming = false;
-					}
-					if (sRecordOutgoing && sSettings.isRecordOutgoing()) {
-						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, sSettings.getRecordDelay());
-						sRecordOutgoing = false;
-					}
+					startRecordingOnDemand(param.thisObject);
 				}
 			});
 		}
@@ -122,11 +114,19 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 		sCallingState = newState;
 	}
 
-	void startRecordingByClickView(Object obj, String name, long delayMillis) throws Throwable {
+	void startRecordingOnDemand(Object obj) throws Throwable {
 		if (!CALL_STATE_INCALL.equals(sCallingState)) {
 			return;
 		}
-		clickView(obj, name, delayMillis);
+		sSettings.reload();
+		if (sRecordIncoming && sSettings.isRecordIncoming()) {
+			clickView(obj, sRecordButtonFieldName, sSettings.getRecordDelay());
+			sRecordIncoming = false;
+		}
+		if (sRecordOutgoing && sSettings.isRecordOutgoing()) {
+			clickView(obj, sRecordButtonFieldName, sSettings.getRecordDelay());
+			sRecordOutgoing = false;
+		}
 	}
 
 	void clickView(Object obj, String name, long delayMillis) throws Throwable {
