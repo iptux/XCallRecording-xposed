@@ -7,15 +7,13 @@ import android.view.View;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
+public class ModCallRecording implements IXposedHookLoadPackage {
 	private static final String PACKAGE_DIALER = "com.android.dialer";
 	private static final String CALL_RECORDING_SERVICE = "com.android.services.callrecorder.CallRecorderService";
 	private static final String CALL_BUTTON_PRESENTER = "com.android.incallui.CallButtonPresenter";
@@ -31,14 +29,6 @@ public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInit
 	private static boolean sRecordOutgoing = false;
 	private static String sRecordButtonFieldName = null;
 	private static Settings sSettings = Settings.getInstance();
-
-	@Override
-	public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
-		if (PACKAGE_DIALER.equals(resparam.packageName)) {
-			resparam.res.setReplacement(PACKAGE_DIALER, "bool", "call_recording_enabled", true);
-			resparam.res.setReplacement(PACKAGE_DIALER, "integer", "call_recording_audio_source", MediaRecorder.AudioSource.VOICE_CALL);
-		}
-	}
 
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
