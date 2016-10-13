@@ -85,6 +85,10 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 			XposedBridge.hookAllMethods(CallButtonFragment, "setEnabled", new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+					boolean isEnabled = (boolean) param.args[0];
+					if (!isEnabled) {
+						return;
+					}
 					sSettings.reload();
 					if (sRecordIncoming && sSettings.isRecordIncoming()) {
 						startRecordingByClickView(param.thisObject, sRecordButtonFieldName, sSettings.getRecordDelay());
