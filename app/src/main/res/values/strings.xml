@@ -16,7 +16,6 @@
 	<string name="pref_title_author">Author</string>
 	<string name="pref_title_email">Email</string>
 	<string name="pref_title_url">Source Code</string>
-	<string name="app_version" translatable="false">1.0</string>
 	<string name="text_url" translatable="false">https://github.com/iptux/XCallRecording-xposed</string>
 	<string name="text_author" translatable="false">Tommy Alex</string>
 	<string name="text_email" translatable="false">iptux7@gmail.com</string>

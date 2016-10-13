@@ -45,7 +45,7 @@
 		>
 		<Preference
 			android:title="@string/app_name"
-			android:summary="@string/app_version"
+			android:key="version_name"
 			/>
 		<Preference
 			android:title="@string/pref_title_url"

@@ -9,5 +9,7 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		getPreferenceManager().setSharedPreferencesMode(MODE_WORLD_READABLE);
 		addPreferencesFromResource(R.xml.preferences);
+
+		findPreference("version_name").setSummary(BuildConfig.VERSION_NAME);
 	}
 }
