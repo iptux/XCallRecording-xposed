@@ -161,6 +161,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 
 		@Override
 		public void run() {
+			if (!view.isEnabled()) {
+				Utility.log("tried to click a disabled view: %s", name);
+			}
 			try {
 				view.performClick();
 				Utility.d("view %s clicked", name);
