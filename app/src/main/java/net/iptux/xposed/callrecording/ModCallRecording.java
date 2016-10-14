@@ -25,7 +25,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	private static final String CALL_STATE_OUTGOING = "OUTGOING";
 
 	private static int sCallingStateParamIndex = 1;
-	private static String sCallingState = "";
+	private static String sCallingState = CALL_STATE_NO_CALLS;
 	private static boolean sRecordIncoming = false;
 	private static boolean sRecordOutgoing = false;
 	private static String sRecordButtonFieldName = null;
@@ -102,12 +102,15 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 		if (sCallingState.equals(newState))
 			return;
 
-		Utility.d("updateCallState: newState=%s", newState);
+		Utility.d("updateCallState: %s -> %s", sCallingState, newState);
 		if (CALL_STATE_INCALL.equals(newState)) {
 			if (CALL_STATE_INCOMING.equals(sCallingState)) {
 				sRecordIncoming = true;
 			} else if (CALL_STATE_OUTGOING.equals(sCallingState)) {
 				sRecordOutgoing = true;
+			} else if (CALL_STATE_NO_CALLS.equals(sCallingState)) {
+				// NO_CALLS -> INCALL, must be incoming call
+				sRecordIncoming = true;
 			}
 		} else if (CALL_STATE_NO_CALLS.equals(newState)) {
 			sRecordIncoming = false;
