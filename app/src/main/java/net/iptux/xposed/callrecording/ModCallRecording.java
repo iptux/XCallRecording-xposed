@@ -138,7 +138,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	}
 
 	void clickView(Object obj, String name, long delayMillis) throws Throwable {
-		final View view = (View) getObjectField(obj, name);
+		View view = (View) getObjectField(obj, name);
 		Utility.d("clickView: name=%s, delayMillis=%d", name, delayMillis);
 		if (null == view)
 			return;
@@ -148,17 +148,26 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 			Utility.showToast(view.getContext(), warning);
 		}
 
-		view.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					view.performClick();
-					Utility.d("recording button clicked");
-				}
-				catch (Throwable e) {
-					XposedBridge.log(e);
-				}
+		view.postDelayed(new ViewClicker(view, name), delayMillis);
+	}
+
+	class ViewClicker implements Runnable {
+		View view;
+		String name;
+		ViewClicker(View view, String name) {
+			this.view = view;
+			this.name = name;
+		}
+
+		@Override
+		public void run() {
+			try {
+				view.performClick();
+				Utility.d("view %s clicked", name);
 			}
-		}, delayMillis);
+			catch (Throwable e) {
+				XposedBridge.log(e);
+			}
+		}
 	}
 }
