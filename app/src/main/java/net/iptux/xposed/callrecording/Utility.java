@@ -11,8 +11,12 @@ final class Utility {
 
 	static void d(String fmt, Object... args) {
 		if (BuildConfig.DEBUG) {
-			XposedBridge.log(TAG + String.format(fmt, args));
+			log(fmt, args);
 		}
+	}
+
+	static void log(String fmt, Object... args) {
+		XposedBridge.log(TAG + String.format(fmt, args));
 	}
 
 	static boolean isExternalStorageAvailable() {

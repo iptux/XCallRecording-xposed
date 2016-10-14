@@ -111,6 +111,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 			} else if (CALL_STATE_NO_CALLS.equals(sCallingState)) {
 				// NO_CALLS -> INCALL, must be incoming call
 				sRecordIncoming = true;
+			} else {
+				Utility.log("unexpected state: %s -> %s", sCallingState, newState);
+				Utility.log("if you see this, please report to developer");
 			}
 		} else if (CALL_STATE_NO_CALLS.equals(newState)) {
 			sRecordIncoming = false;
