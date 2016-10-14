@@ -33,11 +33,11 @@
 		<EditTextPreference
 			android:title="@string/pref_title_record_delay"
 			android:summary="@string/pref_summery_record_delay"
-			android:key="record_delay"
+			android:key="record_delay2"
 			android:dependency="record_enabled"
 			android:numeric="integer"
 			android:maxLength="4"
-			android:defaultValue="100"
+			android:defaultValue="500"
 			/>
 	</PreferenceCategory>
 	<PreferenceCategory

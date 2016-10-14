@@ -7,7 +7,7 @@ class Settings {
 	private static final String PREF_FORCE_AUDIO_SOURCE = "force_audio_source";
 	private static final String PREF_RECORD_INCOMING = "record_incoming";
 	private static final String PREF_RECORD_OUTGOING = "record_outgoing";
-	private static final String PREF_RECORD_DELAY = "record_delay";
+	private static final String PREF_RECORD_DELAY2 = "record_delay2";
 
 	private static class SingletonHelper {
 		private static final Settings INSTANCE = new Settings();
@@ -43,9 +43,9 @@ class Settings {
 	}
 
 	int getRecordDelay() {
-		int delay = 100;
+		int delay = 500;
 		try {
-			delay = Integer.parseInt(prefs.getString(PREF_RECORD_DELAY, "100"));
+			delay = Integer.parseInt(prefs.getString(PREF_RECORD_DELAY2, "500"));
 		} catch (NumberFormatException ex) {
 		}
 		return delay;
