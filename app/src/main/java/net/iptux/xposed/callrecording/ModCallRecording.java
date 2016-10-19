@@ -24,6 +24,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	private static final String CALL_STATE_INCOMING = "INCOMING";
 	private static final String CALL_STATE_OUTGOING = "OUTGOING";
 
+	private static Object sCallButtonFragment = null;
 	private static int sCallingStateParamIndex = 1;
 	private static String sCallingState = CALL_STATE_NO_CALLS;
 	private static boolean sRecordIncoming = false;
@@ -88,16 +89,13 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 					boolean isEnabled = (boolean) param.args[0];
-					if (!isEnabled) {
-						return;
-					}
-					startRecordingOnDemand(param.thisObject);
+					sCallButtonFragment = isEnabled ? param.thisObject : null;
 				}
 			});
 		}
 	}
 
-	void updateCallState(Object state) {
+	void updateCallState(Object state) throws Throwable {
 		String newState = state.toString();
 		if (sCallingState.equals(newState))
 			return;
@@ -115,6 +113,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				Utility.log("unexpected state: %s -> %s", sCallingState, newState);
 				Utility.log("if you see this, please report to developer");
 			}
+			startRecordingOnDemand(sCallButtonFragment);
 		} else if (CALL_STATE_NO_CALLS.equals(newState)) {
 			sRecordIncoming = false;
 			sRecordOutgoing = false;
@@ -123,7 +122,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	}
 
 	void startRecordingOnDemand(Object obj) throws Throwable {
-		if (!CALL_STATE_INCALL.equals(sCallingState)) {
+		if (null == obj) {
 			return;
 		}
 		sSettings.reload();
