@@ -8,8 +8,8 @@ android {
 		applicationId "net.iptux.xposed.callrecording"
 		minSdkVersion 19
 		targetSdkVersion 23
-		versionCode 4
-		versionName "1.0.3"
+		versionCode 5
+		versionName "1.0.4"
 	}
 
 	signingConfigs {
