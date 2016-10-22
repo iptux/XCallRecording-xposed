@@ -8,6 +8,7 @@ class Settings {
 	private static final String PREF_RECORD_INCOMING = "record_incoming";
 	private static final String PREF_RECORD_OUTGOING = "record_outgoing";
 	private static final String PREF_RECORD_DELAY2 = "record_delay2";
+	private static final String PREF_PREPEND_CONTACT_NAME = "prepend_contact_name";
 
 	private static class SingletonHelper {
 		private static final Settings INSTANCE = new Settings();
@@ -49,5 +50,9 @@ class Settings {
 		} catch (NumberFormatException ex) {
 		}
 		return delay;
+	}
+
+	boolean isPrependContactName() {
+		return prefs.getBoolean(PREF_PREPEND_CONTACT_NAME, false);
 	}
 }

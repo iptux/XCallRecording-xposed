@@ -39,6 +39,13 @@
 			android:maxLength="4"
 			android:defaultValue="500"
 			/>
+		<SwitchPreference
+			android:title="@string/pref_title_prepend_contact_name"
+			android:summary="@string/pref_summery_prepend_contact_name"
+			android:key="prepend_contact_name"
+			android:dependency="record_enabled"
+			android:defaultValue="false"
+			/>
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="@string/pref_title_about"

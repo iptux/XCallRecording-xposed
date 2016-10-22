@@ -1,8 +1,12 @@
 package net.iptux.xposed.callrecording;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.view.View;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -57,6 +61,15 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 					String result = (String) param.getResult();
 					String trim = result.trim();
+					sSettings.reload();
+					if (sSettings.isPrependContactName()) {
+						Context context = (Context) param.thisObject;
+						String number = (String) param.args[0];
+						String name = getContactName(context, number);
+						if (!TextUtils.isEmpty(name)) {
+							trim = name + '_' + trim;
+						}
+					}
 					param.setResult(trim);
 				}
 			});
@@ -92,6 +105,27 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					sCallButtonFragment = isEnabled ? param.thisObject : null;
 				}
 			});
+		}
+	}
+
+	String getContactName(Context context, String number) {
+		if (null == context || TextUtils.isEmpty(number)) {
+			return null;
+		}
+		Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+		Cursor cursor = null;
+		try {
+			cursor = context.getContentResolver().query(lookupUri, new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
+			if (null == cursor || cursor.getCount() == 0) {
+				return null;
+			}
+			cursor.moveToNext();
+			String name = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+			return name;
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
 		}
 	}
 
