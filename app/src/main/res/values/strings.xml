@@ -25,4 +25,5 @@
 	<string name="text_author" translatable="false">Tommy Alex</string>
 	<string name="text_email" translatable="false">iptux7@gmail.com</string>
 	<string name="text_mailto" translatable="false">mailto:iptux7@gmail.com</string>
+	<string name="warning_storage_permission">Storage permission is not granted.</string>
 </resources>

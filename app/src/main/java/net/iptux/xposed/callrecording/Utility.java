@@ -1,6 +1,10 @@
 package net.iptux.xposed.callrecording;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
 import android.widget.Toast;
 
@@ -33,6 +37,28 @@ final class Utility {
 
 	static void showToast(Context context, CharSequence text) {
 		Toast.makeText(context, TAG + text, Toast.LENGTH_LONG).show();
+	}
+
+	static void showToast(Context context, int resId) {
+		Toast.makeText(context, resId, Toast.LENGTH_LONG).show();
+	}
+
+	static boolean checkStoragePermission(Activity activity, int requestCode) {
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
+			// no need to check
+			return true;
+		}
+		final String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+		if (PackageManager.PERMISSION_GRANTED != activity.checkSelfPermission(permission)) {
+			if (!activity.shouldShowRequestPermissionRationale(permission)) {
+				activity.requestPermissions(new String[] {permission}, requestCode);
+			} else {
+				showToast(activity, R.string.warning_storage_permission);
+			}
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	static File getRecordingFolder() {
