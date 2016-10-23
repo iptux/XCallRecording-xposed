@@ -4,10 +4,18 @@ import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+
 import de.robv.android.xposed.XposedBridge;
 
 final class Utility {
 	static final String TAG = "XCallRecording: ";
+
+	// folder name on sdcard, const as it's set in CallRecorderService
+	static final String RECORDING_FOLDER = "CallRecordings";
+
+	static final String NOMEDIA = ".nomedia";
 
 	static void d(String fmt, Object... args) {
 		if (BuildConfig.DEBUG) {
@@ -25,5 +33,34 @@ final class Utility {
 
 	static void showToast(Context context, CharSequence text) {
 		Toast.makeText(context, TAG + text, Toast.LENGTH_LONG).show();
+	}
+
+	static File getRecordingFolder() {
+		return Environment.getExternalStoragePublicDirectory(RECORDING_FOLDER);
+	}
+
+	static boolean setRecordingSkipMediaScan(boolean skip) {
+		return setSkipMediaScan(getRecordingFolder(), skip);
+	}
+
+	static boolean setSkipMediaScan(File folder, boolean skip) {
+		if (null == folder || !folder.isDirectory()) {
+			return false;
+		}
+		File nomedia = new File(folder, NOMEDIA);
+		try {
+			if (skip) {
+				if (!nomedia.exists()) {
+					nomedia.createNewFile();
+				}
+			} else {
+				if (nomedia.exists()) {
+					nomedia.delete();
+				}
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return skip ^ !nomedia.exists();
 	}
 }
