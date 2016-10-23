@@ -6,35 +6,35 @@
 		<SwitchPreference
 			android:title="@string/pref_title_is_enable"
 			android:summary="@string/pref_summery_is_enable"
-			android:key="record_enabled"
+			android:key="@string/pref_record_enabled"
 			android:defaultValue="true"
 			/>
 		<SwitchPreference
 			android:title="@string/pref_title_force_audio_source"
 			android:summary="@string/pref_summery_force_audio_source"
 			android:key="force_audio_source"
-			android:dependency="record_enabled"
+			android:dependency="@string/pref_record_enabled"
 			android:defaultValue="false"
 			/>
 		<SwitchPreference
 			android:title="@string/pref_title_record_incoming"
 			android:summary="@string/pref_summery_record_incoming"
 			android:key="record_incoming"
-			android:dependency="record_enabled"
+			android:dependency="@string/pref_record_enabled"
 			android:defaultValue="true"
 			/>
 		<SwitchPreference
 			android:title="@string/pref_title_record_outgoing"
 			android:summary="@string/pref_summery_record_outgoing"
 			android:key="record_outgoing"
-			android:dependency="record_enabled"
+			android:dependency="@string/pref_record_enabled"
 			android:defaultValue="true"
 			/>
 		<EditTextPreference
 			android:title="@string/pref_title_record_delay"
 			android:summary="@string/pref_summery_record_delay"
 			android:key="record_delay2"
-			android:dependency="record_enabled"
+			android:dependency="@string/pref_record_enabled"
 			android:numeric="integer"
 			android:maxLength="4"
 			android:defaultValue="500"
@@ -47,13 +47,14 @@
 			android:title="@string/pref_title_prepend_contact_name"
 			android:summary="@string/pref_summery_prepend_contact_name"
 			android:key="prepend_contact_name"
-			android:dependency="record_enabled"
+			android:dependency="@string/pref_record_enabled"
 			android:defaultValue="false"
 			/>
 		<SwitchPreference
 			android:title="@string/pref_title_skip_media_scan"
 			android:summary="@string/pref_summery_skip_media_scan"
 			android:key="skip_media_scan"
+			android:dependency="@string/pref_record_enabled"
 			android:defaultValue="false"
 			/>
 	</PreferenceCategory>
