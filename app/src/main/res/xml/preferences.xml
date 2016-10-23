@@ -50,6 +50,12 @@
 			android:dependency="record_enabled"
 			android:defaultValue="false"
 			/>
+		<SwitchPreference
+			android:title="@string/pref_title_skip_media_scan"
+			android:summary="@string/pref_summery_skip_media_scan"
+			android:key="skip_media_scan"
+			android:defaultValue="false"
+			/>
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="@string/pref_title_about"
