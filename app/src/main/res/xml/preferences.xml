@@ -51,6 +51,13 @@
 			android:defaultValue="false"
 			/>
 		<SwitchPreference
+			android:title="@string/pref_title_separate_folder"
+			android:summary="@string/pref_summery_separate_folder"
+			android:key="separate_folder"
+			android:dependency="@string/pref_record_enabled"
+			android:defaultValue="false"
+			/>
+		<SwitchPreference
 			android:title="@string/pref_title_skip_media_scan"
 			android:summary="@string/pref_summery_skip_media_scan"
 			android:key="skip_media_scan"

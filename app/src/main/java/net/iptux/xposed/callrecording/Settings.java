@@ -9,6 +9,7 @@ class Settings {
 	private static final String PREF_RECORD_OUTGOING = "record_outgoing";
 	private static final String PREF_RECORD_DELAY2 = "record_delay2";
 	private static final String PREF_PREPEND_CONTACT_NAME = "prepend_contact_name";
+	private static final String PREF_SEPARATE_FOLDER = "separate_folder";
 	static final String PREF_SKIP_MEDIA_SCAN = "skip_media_scan";
 	static final String PREF_VERSION_NAME = "version_name";
 
@@ -56,5 +57,9 @@ class Settings {
 
 	boolean isPrependContactName() {
 		return prefs.getBoolean(PREF_PREPEND_CONTACT_NAME, false);
+	}
+
+	boolean isSeparateFolder() {
+		return prefs.getBoolean(PREF_SEPARATE_FOLDER, false);
 	}
 }

@@ -9,6 +9,8 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 
+import java.io.File;
+
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -62,12 +64,21 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					String result = (String) param.getResult();
 					String trim = result.trim();
 					sSettings.reload();
-					if (sSettings.isPrependContactName()) {
+					if (sSettings.isPrependContactName() || sSettings.isSeparateFolder()) {
 						Context context = (Context) param.thisObject;
 						String number = (String) param.args[0];
 						String name = getContactName(context, number);
 						if (!TextUtils.isEmpty(name)) {
-							trim = name + '_' + trim;
+							if (sSettings.isPrependContactName()) {
+								trim = name + '_' + trim;
+							}
+							number = name;
+						}
+						if (sSettings.isSeparateFolder()) {
+							File folder = new File(Utility.getRecordingFolder(), number);
+							if (folder.exists() || folder.mkdirs()) {
+								trim = number + File.separator + trim;
+							}
 						}
 					}
 					param.setResult(trim);
