@@ -39,6 +39,10 @@
 			android:maxLength="4"
 			android:defaultValue="500"
 			/>
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="@string/pref_title_recording_file"
+		>
 		<SwitchPreference
 			android:title="@string/pref_title_prepend_contact_name"
 			android:summary="@string/pref_summery_prepend_contact_name"
