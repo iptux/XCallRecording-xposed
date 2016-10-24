@@ -2,7 +2,7 @@
 
 Features:
 
-* enable 3-dot->Settings->Calls->Call Recording Format Menu
+* enable Menu: 3-dot->Settings->Calls->Call Recording Format
 * enable call recording for CyanogenMod
 * use Voice Call audio source for recording
 * record incoming calls or outgoing calls only
