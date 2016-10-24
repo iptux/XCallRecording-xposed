@@ -13,13 +13,15 @@ import java.io.File;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public class ModCallRecording implements IXposedHookLoadPackage {
+public class ModCallRecording implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
 	private static final String PACKAGE_DIALER = "com.android.dialer";
 	private static final String CALL_RECORDING_SERVICE = "com.android.services.callrecorder.CallRecorderService";
 	private static final String CALL_BUTTON_PRESENTER = "com.android.incallui.CallButtonPresenter";
@@ -37,6 +39,20 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	private static boolean sRecordOutgoing = false;
 	private static String sRecordButtonFieldName = null;
 	private static Settings sSettings = Settings.getInstance();
+
+	/* 	This part came from https://github.com/pylerSM/EnableCMCallRecording
+		It enables the menu: 3-dot->Settings->Calls->Call Recording Format
+		On Samsung Note 3 (SM-N900T) The default 'AMR-WB' format is broken,
+		'AAC' needs to be selected to record on the SM-N900T.	*/
+	@Override
+	public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam)
+			throws Throwable {
+		if (!PACKAGE_DIALER.equals(resparam.packageName)) {
+			return;
+		}
+		resparam.res.setReplacement(PACKAGE_DIALER, "bool", "call_recording_enabled",
+				true);
+	}
 
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
