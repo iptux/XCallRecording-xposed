@@ -13,6 +13,8 @@
 	<string name="pref_summery_record_outgoing">Auto Start Record Outgoing Calls</string>
 	<string name="pref_title_record_delay">Record Delay (in milliseconds)</string>
 	<string name="pref_summery_record_delay">Delay Between Phone Call and Recording Start</string>
+	<string name="pref_title_aac_format">Use AAC Format</string>
+	<string name="pref_summery_aac_format">Use AAC Audio Encoding and Output .m4a Files</string>
 	<string name="pref_title_recording_file">Recording File</string>
 	<string name="pref_title_prepend_contact_name">Prepend Contact Name</string>
 	<string name="pref_summery_prepend_contact_name">Prepend Contact Name to Recording File Name</string>

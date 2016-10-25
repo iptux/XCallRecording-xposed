@@ -116,6 +116,42 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					sCallButtonFragment = isEnabled ? param.thisObject : null;
 				}
 			});
+
+			if (version >= Build.VERSION_CODES.N) {
+				// not support
+			} else if (version >= Build.VERSION_CODES.M) {
+				findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioFormatChoice", new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+						sSettings.reload();
+						if (sSettings.isAACFormat()) {
+							param.setResult(1);
+						}
+					}
+				});
+			} else if (version >= Build.VERSION_CODES.KITKAT) {
+				findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioFormat", new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+						sSettings.reload();
+						if (sSettings.isAACFormat()) {
+							param.setResult(MediaRecorder.OutputFormat.MPEG_4);
+						}
+					}
+				});
+				findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioEncoder", new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+						sSettings.reload();
+						if (sSettings.isAACFormat()) {
+							// original code use HE_AAC, see https://review.cyanogenmod.org/147231
+							param.setResult(MediaRecorder.AudioEncoder.AAC);
+						}
+					}
+				});
+			} else {
+				// not support
+			}
 		}
 	}
 

@@ -5,6 +5,7 @@ import de.robv.android.xposed.XSharedPreferences;
 class Settings {
 	private static final String PREF_RECORD_ENABLE = "record_enabled";
 	private static final String PREF_FORCE_AUDIO_SOURCE = "force_audio_source";
+	private static final String PREF_AAC_FORMAT = "aac_format";
 	private static final String PREF_RECORD_INCOMING = "record_incoming";
 	private static final String PREF_RECORD_OUTGOING = "record_outgoing";
 	private static final String PREF_RECORD_DELAY2 = "record_delay2";
@@ -36,6 +37,10 @@ class Settings {
 
 	boolean forceAudioSource() {
 		return prefs.getBoolean(PREF_FORCE_AUDIO_SOURCE, false);
+	}
+
+	boolean isAACFormat() {
+		return prefs.getBoolean(PREF_AAC_FORMAT, false);
 	}
 
 	boolean isRecordIncoming() {

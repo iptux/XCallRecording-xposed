@@ -17,6 +17,13 @@
 			android:defaultValue="false"
 			/>
 		<SwitchPreference
+			android:title="@string/pref_title_aac_format"
+			android:summary="@string/pref_summery_aac_format"
+			android:key="aac_format"
+			android:dependency="@string/pref_record_enabled"
+			android:defaultValue="false"
+			/>
+		<SwitchPreference
 			android:title="@string/pref_title_record_incoming"
 			android:summary="@string/pref_summery_record_incoming"
 			android:key="record_incoming"
