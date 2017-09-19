@@ -94,8 +94,10 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 			});
 
 			int version = Build.VERSION.SDK_INT;
-			if (version >= 25) {
+			if (version >= Build.VERSION_CODES.O) {
 				// not support yet
+			} else if (version >= Build.VERSION_CODES.N_MR1) {
+				sRecordButtonFieldName = "mCallRecordButton";
 			} else if (version >= Build.VERSION_CODES.N) {
 				sRecordButtonFieldName = "mRecordButton";
 			} else if (version >= Build.VERSION_CODES.LOLLIPOP) {
@@ -117,9 +119,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			if (version >= Build.VERSION_CODES.N) {
+			if (version >= Build.VERSION_CODES.O) {
 				// not support
-			} else if (version >= Build.VERSION_CODES.M) {
+			} else if (version >= Build.VERSION_CODES.N_MR1) {
 				findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioFormatChoice", new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
