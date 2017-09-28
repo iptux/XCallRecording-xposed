@@ -29,6 +29,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	private static final String CALL_STATE_INCALL = "INCALL";
 	private static final String CALL_STATE_INCOMING = "INCOMING";
 	private static final String CALL_STATE_OUTGOING = "OUTGOING";
+	private static final String CALL_STATE_PENDING_OUTGOING = "PENDING_OUTGOING";
 
 	private static Object sCallButtonFragment = null;
 	private static int sCallingStateParamIndex = 1;
@@ -192,6 +193,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 			} else if (CALL_STATE_NO_CALLS.equals(sCallingState)) {
 				// NO_CALLS -> INCALL, must be incoming call
 				sRecordIncoming = true;
+			} else if (CALL_STATE_PENDING_OUTGOING.equals(sCallingState)) {
+				// PENDING_OUTGOING -> INCALL
+				sRecordOutgoing = true;
 			} else {
 				Utility.log("unexpected state: %s -> %s", sCallingState, newState);
 				Utility.log("if you see this, please report to developer");
