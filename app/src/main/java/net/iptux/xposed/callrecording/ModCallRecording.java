@@ -121,7 +121,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 
 			if (version >= Build.VERSION_CODES.O) {
 				// not support
-			} else if (version >= Build.VERSION_CODES.N_MR1) {
+			} else if (version >= Build.VERSION_CODES.M) {
 				findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioFormatChoice", new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
