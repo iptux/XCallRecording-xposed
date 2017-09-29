@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_description">CM Call Recording Settings</string>
+<string name="app_name">XCallRecordingSettings</string>
+<string name="pref_record_enabled">запись_активирована</string>
+<string name="pref_summery_aac_format">AAC кодирование и файлы .m4a</string>
+<string name="pref_summery_force_audio_source">Использовать звук голосового динамика</string>
+<string name="pref_summery_is_enable">Включить запись телефонных разговоров</string>
+<string name="pref_summery_prepend_contact_name">Имя контакта в названии файла записи</string>
+<string name="pref_summery_record_delay">Значение в милисекундах</string>
+<string name="pref_summery_record_incoming">Автоматическая запись входящих</string>
+<string name="pref_summery_record_outgoing">Автоматическая запись исходящих</string>
+<string name="pref_summery_separate_folder">Размещать записи в папках по контактам</string>
+<string name="pref_summery_skip_media_scan">Скрыть файлы записей из галереи</string>
+<string name="pref_title_aac_format">Использовать AAC формат</string>
+<string name="pref_title_about">О программе</string>
+<string name="pref_title_author">Автор</string>
+<string name="pref_title_call_recording">Параметры</string>
+<string name="pref_title_email">E-mail</string>
+<string name="pref_title_force_audio_source">Источник звука</string>
+<string name="pref_title_is_enable">Запись звонков</string>
+<string name="pref_title_prepend_contact_name">Добавить имя контакта</string>
+<string name="pref_title_record_delay">Задержка перед началом записи</string>
+<string name="pref_title_record_incoming">Запись входящих звонков</string>
+<string name="pref_title_record_outgoing">Запись исходящих звонков</string>
+<string name="pref_title_recording_file">Файлы записей</string>
+<string name="pref_title_separate_folder">Отдельные папки</string>
+<string name="pref_title_skip_media_scan">Пропустить сканирование медиа</string>
+<string name="pref_title_url">Источник</string>
+<string name="text_author">Tommy Alex</string>
+<string name="text_email">iptux7@gmail.com</string>
+<string name="text_mailto">mailto:iptux7@gmail.com</string>
+<string name="text_url">https://github.com/iptux/XCallRecording-xposed</string>
+<string name="warning_storage_permission">Нет доступа к хранилищу.</string>
+</resources>
