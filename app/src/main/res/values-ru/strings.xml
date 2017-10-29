@@ -27,9 +27,5 @@
 <string name="pref_title_separate_folder">Отдельные папки</string>
 <string name="pref_title_skip_media_scan">Пропустить сканирование медиа</string>
 <string name="pref_title_url">Источник</string>
-<string name="text_author">Tommy Alex</string>
-<string name="text_email">iptux7@gmail.com</string>
-<string name="text_mailto">mailto:iptux7@gmail.com</string>
-<string name="text_url">https://github.com/iptux/XCallRecording-xposed</string>
 <string name="warning_storage_permission">Нет доступа к хранилищу.</string>
 </resources>
