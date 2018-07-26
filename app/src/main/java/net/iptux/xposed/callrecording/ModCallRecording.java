@@ -25,6 +25,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	private static final String CALL_BUTTON_PRESENTER = "com.android.incallui.CallButtonPresenter";
 	private static final String CALL_BUTTON_FRAGMENT = "com.android.incallui.CallButtonFragment";
 
+	private static final String CALL_RECORDING_SERVICE_LOS15 = "com.android.dialer.callrecord.impl.CallRecorderService";
+	private static final String CALL_BUTTON_FRAGMENT_LOS15 = "com.android.incallui.incall.impl.ButtonController.CallRecordButtonController";
+
 	private static final String CALL_STATE_NO_CALLS = "NO_CALLS";
 	private static final String CALL_STATE_INCALL = "INCALL";
 	private static final String CALL_STATE_INCOMING = "INCOMING";
@@ -43,14 +46,27 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if (PACKAGE_DIALER.equals(lpparam.packageName)) {
 			Utility.d("handleLoadPackage: packageName=%s", lpparam.packageName);
-			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "isEnabled", Context.class, new XC_MethodHook() {
+
+			String callRecordingServiceName;
+			String callButtonFragment;
+
+			int version = Build.VERSION.SDK_INT;
+			if (version >= Build.VERSION_CODES.O) {
+				callRecordingServiceName = CALL_RECORDING_SERVICE_LOS15;
+				callButtonFragment = CALL_BUTTON_FRAGMENT_LOS15;
+			} else {
+				callRecordingServiceName = CALL_RECORDING_SERVICE;
+				callButtonFragment = CALL_BUTTON_FRAGMENT;
+			}
+
+			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "isEnabled", Context.class, new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 					sSettings.reload();
 					param.setResult(sSettings.isRecordEnable() ? Boolean.TRUE : Boolean.FALSE);
 				}
 			});
-			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioSource", new XC_MethodHook() {
+			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioSource", new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 					sSettings.reload();
@@ -59,7 +75,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					}
 				}
 			});
-			findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "generateFilename", String.class, new XC_MethodHook() {
+			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "generateFilename", String.class, new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 					String result = (String) param.getResult();
@@ -94,9 +110,8 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			int version = Build.VERSION.SDK_INT;
-			if (version >= Build.VERSION_CODES.O) {
-				// not support yet
+			if (version >= Build.VERSION_CODES.O_MR1) {
+				sRecordButtonFieldName = "button";
 			} else if (version >= Build.VERSION_CODES.N_MR1) {
 				sRecordButtonFieldName = "mCallRecordButton";
 			} else if (version >= Build.VERSION_CODES.N) {
@@ -110,7 +125,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				// not support
 			}
 
-			final Class<?> CallButtonFragment = XposedHelpers.findClass(CALL_BUTTON_FRAGMENT, lpparam.classLoader);
+			final Class<?> CallButtonFragment = XposedHelpers.findClass(callButtonFragment, lpparam.classLoader);
 			// CallButtonFragment.setEnabled() is called frequently, start recording here is a good choice
 			XposedBridge.hookAllMethods(CallButtonFragment, "setEnabled", new XC_MethodHook() {
 				@Override
@@ -120,10 +135,10 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			if (version >= Build.VERSION_CODES.O) {
+			if (version > Build.VERSION_CODES.O_MR1) {
 				// not support
 			} else if (version >= Build.VERSION_CODES.M) {
-				findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioFormatChoice", new XC_MethodHook() {
+				findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioFormatChoice", new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 						sSettings.reload();
@@ -133,7 +148,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					}
 				});
 			} else if (version >= Build.VERSION_CODES.KITKAT) {
-				findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioFormat", new XC_MethodHook() {
+				findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioFormat", new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 						sSettings.reload();
@@ -142,7 +157,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 						}
 					}
 				});
-				findAndHookMethod(CALL_RECORDING_SERVICE, lpparam.classLoader, "getAudioEncoder", new XC_MethodHook() {
+				findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioEncoder", new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 						sSettings.reload();
