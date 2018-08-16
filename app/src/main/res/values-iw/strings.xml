@@ -30,6 +30,6 @@
 	<string name="text_author" translatable="false">Tommy Alex</string>
 	<string name="text_email" translatable="false">iptux7@gmail.com</string>
 	<string name="text_mailto" translatable="false">mailto:iptux7@gmail.com</string>
-	<string name="warning_storage_permission">הרשאת אחסון לא ניתנו.</string>
+	<string name="warning_storage_permission">הרשאות אחסון לא ניתנו.</string>
 </resources>
 
