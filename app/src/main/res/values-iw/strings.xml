@@ -1,0 +1,35 @@
+<resources>
+	<string name="app_name">XCallRecordingSettings</string>
+	<string name="app_description">CM Call Recording Settings</string>
+	<string name="pref_title_call_recording">הקלטת שיחות</string>
+	<string name="pref_record_enabled">הקלטה_מופעלת</string>
+	<string name="pref_title_is_enable">הפעל הקלטת שיחות</string>
+	<string name="pref_summery_is_enable">כפה הפעלת הקלטת שיחות</string>
+	<string name="pref_title_force_audio_source">כפה מקור אודיו</string>
+	<string name="pref_summery_force_audio_source">כפה שימוש בשמע קול אודיו בעת הקלטה</string>
+	<string name="pref_title_record_incoming">הקלט שיחות נכנסות</string>
+	<string name="pref_summery_record_incoming">הקלט אוטומטית שיחות נכנסות</string>
+	<string name="pref_title_record_outgoing">הקלט שיחות יוצאות</string>
+	<string name="pref_summery_record_outgoing">הקלט אוטומטית שיחות יוצאות</string>
+	<string name="pref_title_record_delay">השהיית הקלטה (באלפיות שניה)</string>
+	<string name="pref_summery_record_delay">השהה בין תחילת השיחה לתחילת ההקלטה</string>
+	<string name="pref_title_aac_format">השתמש בפורמט AAC</string>
+	<string name="pref_summery_aac_format">השתמש בקידוד אודיו AAC וייצא לקבצי .m4a</string>
+	<string name="pref_title_recording_file">קבצי הקלטה</string>
+	<string name="pref_title_prepend_contact_name">הוסף שם איש קשר תחילה</string>
+	<string name="pref_summery_prepend_contact_name">הוסף שם איש קשר בתחילת שם הקובץ</string>
+	<string name="pref_title_separate_folder">תיקייה נפרדת</string>
+	<string name="pref_summery_separate_folder">מקום הקלטה קבצים לתוך תיקייה נפרדת לפי שם איש קשר</string>
+	<string name="pref_title_skip_media_scan">דלג סריקת מדיה</string>
+	<string name="pref_summery_skip_media_scan">מניעת הוספת קבצי הקלטה לגלריה</string>
+	<string name="pref_title_about">אודות</string>
+	<string name="pref_title_author">יוצר</string>
+	<string name="pref_title_email">אימייל</string>
+	<string name="pref_title_url">קוד מקור</string>
+	<string name="text_url" translatable="false">https://github.com/iptux/XCallRecording-xposed</string>
+	<string name="text_author" translatable="false">Tommy Alex</string>
+	<string name="text_email" translatable="false">iptux7@gmail.com</string>
+	<string name="text_mailto" translatable="false">mailto:iptux7@gmail.com</string>
+	<string name="warning_storage_permission">הרשאות אחסון לא ניתנו.</string>
+</resources>
+
