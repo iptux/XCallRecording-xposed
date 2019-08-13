@@ -110,7 +110,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			if (version >= Build.VERSION_CODES.O_MR1) {
+			if (version > Build.VERSION_CODES.P) {
+				// not support
+			} else if (version >= Build.VERSION_CODES.O) {
 				sRecordButtonFieldName = "button";
 			} else if (version >= Build.VERSION_CODES.N_MR1) {
 				sRecordButtonFieldName = "mCallRecordButton";
@@ -126,7 +128,6 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 			}
 
 			final Class<?> CallButtonFragment = XposedHelpers.findClass(callButtonFragment, lpparam.classLoader);
-			// CallButtonFragment.setEnabled() is called frequently, start recording here is a good choice
 			XposedBridge.hookAllMethods(CallButtonFragment, "setEnabled", new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
@@ -135,7 +136,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			if (version > Build.VERSION_CODES.O_MR1) {
+			if (version > Build.VERSION_CODES.P) {
 				// not support
 			} else if (version >= Build.VERSION_CODES.M) {
 				findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioFormatChoice", new XC_MethodHook() {
