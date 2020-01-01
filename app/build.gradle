@@ -10,7 +10,7 @@ android {
 		/* for Context.MODE_WORLD_READABLE */
 		targetSdkVersion 23
 		versionCode 13
-		versionName "1.0.13"
+		versionName "1.0.14"
 	}
 
 	signingConfigs {
