@@ -68,7 +68,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 					sSettings.reload();
-					param.setResult(sSettings.isRecordEnable() ? Boolean.TRUE : Boolean.FALSE);
+					if (sSettings.isRecordEnable()) {
+						param.setResult(Boolean.TRUE);
+					}
 				}
 			});
 
@@ -78,7 +80,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 						// This method is used in place of isEnabled in later versions
 						sSettings.reload();
-						param.setResult(sSettings.isRecordEnable() ? Boolean.TRUE : Boolean.FALSE);
+						if (sSettings.isRecordEnable()) {
+							param.setResult(Boolean.TRUE);
+						}
 					}
 				});
 			} catch (Throwable e) {
