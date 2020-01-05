@@ -24,9 +24,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 	private static final String CALL_RECORDING_SERVICE = "com.android.services.callrecorder.CallRecorderService";
 	private static final String CALL_BUTTON_PRESENTER = "com.android.incallui.CallButtonPresenter";
 	private static final String CALL_BUTTON_FRAGMENT = "com.android.incallui.CallButtonFragment";
+	private static final String CALL_RECORDING_LISTENER = "com.android.incallui.CallRecorder";
 
-	private static final String CALL_RECORDING_LISTENER = "com.android.incallui.call.CallRecorder";
-
+	private static final String CALL_RECORDING_LISTENER_LOS15 = "com.android.incallui.call.CallRecorder";
 	private static final String CALL_RECORDING_SERVICE_LOS15 = "com.android.dialer.callrecord.impl.CallRecorderService";
 	private static final String CALL_BUTTON_FRAGMENT_LOS15 = "com.android.incallui.incall.impl.ButtonController.CallRecordButtonController";
 
@@ -49,14 +49,17 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 		if (PACKAGE_DIALER.equals(lpparam.packageName)) {
 			Utility.d("handleLoadPackage: packageName=%s", lpparam.packageName);
 
+			String callRecordingListener;
 			String callRecordingServiceName;
 			String callButtonFragment;
 
 			int version = Build.VERSION.SDK_INT;
 			if (version >= Build.VERSION_CODES.O) {
+				callRecordingListener = CALL_RECORDING_LISTENER_LOS15;
 				callRecordingServiceName = CALL_RECORDING_SERVICE_LOS15;
 				callButtonFragment = CALL_BUTTON_FRAGMENT_LOS15;
 			} else {
+				callRecordingListener = CALL_RECORDING_LISTENER;
 				callRecordingServiceName = CALL_RECORDING_SERVICE;
 				callButtonFragment = CALL_BUTTON_FRAGMENT;
 			}
@@ -68,6 +71,19 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					param.setResult(sSettings.isRecordEnable() ? Boolean.TRUE : Boolean.FALSE);
 				}
 			});
+
+			try {
+				findAndHookMethod(callRecordingListener, lpparam.classLoader, "canRecordInCurrentCountry", new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+						// This method is used in place of isEnabled in later versions
+						sSettings.reload();
+						param.setResult(sSettings.isRecordEnable() ? Boolean.TRUE : Boolean.FALSE);
+					}
+				});
+			} catch (Throwable e) {
+				// ignored
+			}
 
 			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioSource", new XC_MethodHook() {
 				@Override
@@ -138,21 +154,6 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					sCallButtonFragment = isEnabled ? param.thisObject : null;
 				}
 			});
-
-			final Class<?> CallRecorder = XposedHelpers.findClass(CALL_RECORDING_LISTENER, lpparam.classLoader);
-
-			try {
-				XposedBridge.hookAllMethods(CallRecorder, "canRecordInCurrentCountry", new XC_MethodHook() {
-					@Override
-					protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-						// This method is used in place of isEnabled in later versions
-						sSettings.reload();
-						param.setResult(sSettings.isRecordEnable() ? Boolean.TRUE : Boolean.FALSE);
-					}
-				});
-			} catch (Error e) {
-				Utility.log("%s.canRecordInCurrentCountry does not exist in this version", CALL_RECORDING_LISTENER);
-			}
 
 			if (version > Build.VERSION_CODES.P) {
 				// not support
