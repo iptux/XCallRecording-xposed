@@ -133,7 +133,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			if (version > Build.VERSION_CODES.P) {
+			if (version > Build.VERSION_CODES.Q) {
 				// not support
 			} else if (version >= Build.VERSION_CODES.O) {
 				sRecordButtonFieldName = "button";
@@ -159,7 +159,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			if (version > Build.VERSION_CODES.P) {
+			if (version > Build.VERSION_CODES.Q) {
 				// not support
 			} else if (version >= Build.VERSION_CODES.M) {
 				findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioFormatChoice", new XC_MethodHook() {

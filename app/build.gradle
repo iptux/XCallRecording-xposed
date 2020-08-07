@@ -1,16 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 28
-	buildToolsVersion "28.0.3"
+	compileSdkVersion 29
+	buildToolsVersion "29.0.3"
 
 	defaultConfig {
 		applicationId "net.iptux.xposed.callrecording"
 		minSdkVersion 19
 		/* for Context.MODE_WORLD_READABLE */
 		targetSdkVersion 23
-		versionCode 14
-		versionName "1.0.14"
+		versionCode 15
+		versionName "1.0.15"
 	}
 
 	signingConfigs {
