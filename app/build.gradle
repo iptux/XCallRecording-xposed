@@ -29,6 +29,10 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'XposedBridgeApi-rules.pro'
 		}
 	}
+
+	lintOptions {
+		disable 'MissingTranslation'
+	}
 }
 
 dependencies {

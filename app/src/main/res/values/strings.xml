@@ -16,6 +16,8 @@
 	<string name="pref_title_aac_format">Use AAC Format</string>
 	<string name="pref_summery_aac_format">Use AAC Audio Encoding and Output .m4a Files</string>
 	<string name="pref_title_recording_file">Recording File</string>
+	<string name="pref_title_side_effect">Side Effect Warning!</string>
+	<string name="pref_summery_side_effect">Enable options in this category may have side effect if MediaProvider is used for recording files.\nDialer on LineageOS 17.1/18.1 use MediaProvider.</string>
 	<string name="pref_title_prepend_contact_name">Prepend Contact Name</string>
 	<string name="pref_summery_prepend_contact_name">Prepend Contact Name to Recording File Name</string>
 	<string name="pref_title_separate_folder">Separate Folder</string>
