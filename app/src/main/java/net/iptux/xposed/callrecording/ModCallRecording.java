@@ -89,6 +89,8 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				// ignored
 			}
 
+			try {
+			// getAudioSource() may get inlined in the final dex
 			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioSource", new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
@@ -98,6 +100,9 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 					}
 				}
 			});
+			} catch (Throwable e) {
+				// ignored
+			}
 			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "generateFilename", String.class, new XC_MethodHook() {
 				@Override
 				protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
