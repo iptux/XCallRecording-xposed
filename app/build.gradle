@@ -36,5 +36,5 @@ android {
 }
 
 dependencies {
-	provided files('lib/XposedBridgeApi.jar')
+	compileOnly fileTree(dir: 'lib', include: ['*.jar'])
 }
