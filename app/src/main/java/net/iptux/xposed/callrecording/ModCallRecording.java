@@ -138,7 +138,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			if (version > Build.VERSION_CODES.Q) {
+			if (version > Build.VERSION_CODES.R) {
 				// not support
 			} else if (version >= Build.VERSION_CODES.O) {
 				sRecordButtonFieldName = "button";
