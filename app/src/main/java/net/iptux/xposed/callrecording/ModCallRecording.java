@@ -164,7 +164,7 @@ public class ModCallRecording implements IXposedHookLoadPackage {
 				}
 			});
 
-			if (version > Build.VERSION_CODES.Q) {
+			if (version > Build.VERSION_CODES.R) {
 				// not support
 			} else if (version >= Build.VERSION_CODES.M) {
 				findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioFormatChoice", new XC_MethodHook() {
