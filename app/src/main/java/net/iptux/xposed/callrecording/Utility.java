@@ -3,9 +3,12 @@ package net.iptux.xposed.callrecording;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.widget.Toast;
 
 import java.io.File;
@@ -21,6 +24,8 @@ final class Utility {
 	static final String RECORDING_FOLDER_LOS17 = "Call Recordings";
 
 	static final String NOMEDIA = ".nomedia";
+
+	static final String EXTERNAL_STORAGE_AUTHORITY = "com.android.externalstorage.documents";
 
 	static void d(String fmt, Object... args) {
 		if (BuildConfig.DEBUG) {
@@ -94,5 +99,40 @@ final class Utility {
 			ex.printStackTrace();
 		}
 		return skip ^ !nomedia.exists();
+	}
+
+	static void openRecordingFolder(Context context) {
+		File file = getRecordingFolder();
+		if (openFolder(context, getDocumentUri(file))) {
+			return;
+		}
+		if (openFolder(context, Uri.fromFile(file))) {
+			return;
+		}
+		showToast(context, file.toString());
+	}
+
+	static boolean openFolder(Context context, Uri uri) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		intent.setDataAndType(uri, DocumentsContract.Document.MIME_TYPE_DIR);
+		if (intent.resolveActivity(context.getPackageManager()) == null) {
+			return false;
+		}
+		context.startActivity(intent);
+		return true;
+	}
+
+	static Uri getDocumentUri(File file) {
+		String storage = Environment.getExternalStorageDirectory().toString();
+		String documentId = file.toString();
+		if (documentId.startsWith(storage)) {
+			int offset = storage.length();
+			if (!storage.endsWith(File.separator)) {
+				offset += File.separator.length();
+			}
+			documentId = "primary:" + documentId.substring(offset);
+		}
+		return DocumentsContract.buildDocumentUri(EXTERNAL_STORAGE_AUTHORITY, documentId);
 	}
 }

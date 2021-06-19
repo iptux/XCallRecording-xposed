@@ -6,7 +6,10 @@ import android.preference.PreferenceActivity;
 import android.os.Bundle;
 import android.preference.SwitchPreference;
 
-public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
+public class SettingsActivity extends PreferenceActivity implements
+		Preference.OnPreferenceChangeListener,
+		Preference.OnPreferenceClickListener {
+
 	static final int REQUEST_STORAGE_PERMISSION = 0x10ae;
 
 	SwitchPreference mPrefSkipMediaScan;
@@ -22,6 +25,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		mPrefSkipMediaScan.setOnPreferenceChangeListener(this);
 
 		Preference prefRecordingFolder = findPreference(Settings.PREF_RECORDING_FOLDER);
+		prefRecordingFolder.setOnPreferenceClickListener(this);
 		prefRecordingFolder.setSummary(Utility.getRecordingFolder().toString());
 	}
 
@@ -51,5 +55,15 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public boolean onPreferenceClick(Preference preference) {
+		switch (preference.getKey()) {
+		case Settings.PREF_RECORDING_FOLDER:
+			Utility.openRecordingFolder(this);
+			break;
+		}
+		return false;
 	}
 }
