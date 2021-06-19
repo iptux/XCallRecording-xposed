@@ -20,6 +20,9 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		findPreference(Settings.PREF_VERSION_NAME).setSummary(BuildConfig.VERSION_NAME);
 		mPrefSkipMediaScan = (SwitchPreference) findPreference(Settings.PREF_SKIP_MEDIA_SCAN);
 		mPrefSkipMediaScan.setOnPreferenceChangeListener(this);
+
+		Preference prefRecordingFolder = findPreference(Settings.PREF_RECORDING_FOLDER);
+		prefRecordingFolder.setSummary(Utility.getRecordingFolder().toString());
 	}
 
 	@Override

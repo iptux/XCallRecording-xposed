@@ -54,6 +54,10 @@
 			android:title="@string/pref_title_side_effect"
 			android:summary="@string/pref_summery_side_effect"
 			/>
+		<Preference
+			android:title="@string/pref_title_recording_folder"
+			android:key="recording_folder"
+			/>
 		<SwitchPreference
 			android:title="@string/pref_title_prepend_contact_name"
 			android:summary="@string/pref_summery_prepend_contact_name"

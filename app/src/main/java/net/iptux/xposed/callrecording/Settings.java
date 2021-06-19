@@ -12,6 +12,7 @@ class Settings {
 	private static final String PREF_PREPEND_CONTACT_NAME = "prepend_contact_name";
 	private static final String PREF_SEPARATE_FOLDER = "separate_folder";
 	static final String PREF_SKIP_MEDIA_SCAN = "skip_media_scan";
+	static final String PREF_RECORDING_FOLDER = "recording_folder";
 	static final String PREF_VERSION_NAME = "version_name";
 
 	private static class SingletonHelper {
