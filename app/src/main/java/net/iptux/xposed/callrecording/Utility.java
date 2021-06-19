@@ -18,6 +18,7 @@ final class Utility {
 
 	// folder name on sdcard, const as it's set in CallRecorderService
 	static final String RECORDING_FOLDER = "CallRecordings";
+	static final String RECORDING_FOLDER_LOS17 = "Call Recordings";
 
 	static final String NOMEDIA = ".nomedia";
 
@@ -62,7 +63,12 @@ final class Utility {
 	}
 
 	static File getRecordingFolder() {
-		return Environment.getExternalStoragePublicDirectory(RECORDING_FOLDER);
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+			return Environment.getExternalStoragePublicDirectory(RECORDING_FOLDER);
+		} else {
+			File music = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+			return new File(music, RECORDING_FOLDER_LOS17);
+		}
 	}
 
 	static boolean setRecordingSkipMediaScan(boolean skip) {
