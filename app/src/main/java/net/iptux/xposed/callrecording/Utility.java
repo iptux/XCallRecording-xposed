@@ -103,13 +103,13 @@ final class Utility {
 
 	static void openRecordingFolder(Context context) {
 		File file = getRecordingFolder();
+		showToast(context, file.toString());
 		if (openFolder(context, getDocumentUri(file))) {
 			return;
 		}
 		if (openFolder(context, Uri.fromFile(file))) {
 			return;
 		}
-		showToast(context, file.toString());
 	}
 
 	static boolean openFolder(Context context, Uri uri) {
