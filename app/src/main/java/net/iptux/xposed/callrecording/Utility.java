@@ -37,6 +37,10 @@ final class Utility {
 		XposedBridge.log(TAG + String.format(fmt, args));
 	}
 
+	static void log(Throwable throwable) {
+		XposedBridge.log(throwable);
+	}
+
 	static boolean isExternalStorageAvailable() {
 		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
 	}
