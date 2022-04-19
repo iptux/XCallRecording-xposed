@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
+		android:title="@string/pref_title_side_effect"
+		>
+		<Preference
+			android:title="@string/pref_title_side_effect"
+			android:summary="@string/pref_summery_side_effect"
+			/>
+	</PreferenceCategory>
+	<PreferenceCategory
 		android:title="@string/pref_title_call_recording"
 		>
 		<SwitchPreference
@@ -50,10 +58,6 @@
 	<PreferenceCategory
 		android:title="@string/pref_title_recording_file"
 		>
-		<Preference
-			android:title="@string/pref_title_side_effect"
-			android:summary="@string/pref_summery_side_effect"
-			/>
 		<Preference
 			android:title="@string/pref_title_recording_folder"
 			android:key="recording_folder"
