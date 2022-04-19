@@ -22,6 +22,7 @@ final class Utility {
 	// folder name on sdcard, const as it's set in CallRecorderService
 	static final String RECORDING_FOLDER = "CallRecordings";
 	static final String RECORDING_FOLDER_LOS17 = "Call Recordings";
+	static final String RECORDING_FOLDER_LOS19 = "Call recordings";
 
 	static final String NOMEDIA = ".nomedia";
 
@@ -74,9 +75,13 @@ final class Utility {
 	static File getRecordingFolder() {
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
 			return Environment.getExternalStoragePublicDirectory(RECORDING_FOLDER);
-		} else {
+		} else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
 			File music = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
 			return new File(music, RECORDING_FOLDER_LOS17);
+		} else {
+			// https://review.lineageos.org/328618
+			File recordings = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RECORDINGS);
+			return new File(recordings, RECORDING_FOLDER_LOS19);
 		}
 	}
 
