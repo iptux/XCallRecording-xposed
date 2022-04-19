@@ -23,6 +23,7 @@
 	<string name="pref_summery_prepend_contact_name">Prepend Contact Name to Recording File Name</string>
 	<string name="pref_title_separate_folder">Separate Folder</string>
 	<string name="pref_summery_separate_folder">Place Recording Files into Separate Folder Based on Contact</string>
+	<string name="pref_summery_separate_folder_disabled">Place Recording Files into Separate Folder Based on Contact\nThis option is not available on Android 10 / LOS 17 and later.</string>
 	<string name="pref_title_skip_media_scan">Skip Media Scan</string>
 	<string name="pref_summery_skip_media_scan">Prevent Recording Files be Added to Gallery</string>
 	<string name="pref_title_about">About</string>

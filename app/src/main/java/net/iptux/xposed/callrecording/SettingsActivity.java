@@ -3,6 +3,7 @@ package net.iptux.xposed.callrecording;
 import android.content.pm.PackageManager;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.SwitchPreference;
 
@@ -27,6 +28,12 @@ public class SettingsActivity extends PreferenceActivity implements
 		Preference prefRecordingFolder = findPreference(Settings.PREF_RECORDING_FOLDER);
 		prefRecordingFolder.setOnPreferenceClickListener(this);
 		prefRecordingFolder.setSummary(Utility.getRecordingFolder().toString());
+
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+			Preference prefSeparateFolder = findPreference(Settings.PREF_SEPARATE_FOLDER);
+			prefSeparateFolder.setEnabled(false);
+			prefSeparateFolder.setSummary(R.string.pref_summery_separate_folder_disabled);
+		}
 	}
 
 	@Override
