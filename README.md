@@ -13,3 +13,7 @@ recording files are saved in
 or `/sdcard/Music/Call Recordings` (Android 10 / LOS 17.1 and Android 11 / LOS 18.1)
 or `/sdcard/Recordings/Call recordings` (Android 12 / LOS 19.1 and later)
 folder.
+
+NOTE: extra setup required for LSPosed,
+just enable this module and
+check the checkbox of Phone (com.android.dialer)
