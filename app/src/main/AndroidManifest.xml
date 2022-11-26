@@ -24,6 +24,10 @@
 			android:name="xposedscope"
 			android:value="com.android.dialer"
 			/>
+		<meta-data
+			android:name="xposedsharedprefs"
+			android:value="true"
+			/>
 
 		<activity
 			android:name=".SettingsActivity"
