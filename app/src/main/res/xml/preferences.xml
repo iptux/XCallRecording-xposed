@@ -8,8 +8,8 @@
 			android:summary="@string/pref_summery_module_scope"
 			/>
 		<Preference
-			android:title="@string/pref_title_side_effect"
-			android:summary="@string/pref_summery_side_effect"
+			android:title="@string/pref_title_selinux_warning"
+			android:summary="@string/pref_summery_selinux_warning"
 			/>
 	</PreferenceCategory>
 	<PreferenceCategory
