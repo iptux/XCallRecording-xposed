@@ -80,7 +80,7 @@ final class Utility {
 			return new File(music, RECORDING_FOLDER_LOS17);
 		} else {
 			// https://review.lineageos.org/328618
-			File recordings = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RECORDINGS);
+			File recordings = Environment.getExternalStoragePublicDirectory("Recordings");
 			return new File(recordings, RECORDING_FOLDER_LOS19);
 		}
 	}

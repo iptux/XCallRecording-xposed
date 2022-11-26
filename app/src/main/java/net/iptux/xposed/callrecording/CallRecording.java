@@ -69,9 +69,7 @@ public class CallRecording implements IXposedHookLoadPackage {
 		final Class<?> CallButtonFragment = XposedHelpers.findClass(callButtonFragment, lpparam.classLoader);
 		hookAllMethods(CallButtonFragment, "setEnabled", new SetEnabledHook());
 
-		if (version > Build.VERSION_CODES.S_V2) {
-			// not support
-		} else if (version >= Build.VERSION_CODES.M) {
+		if (version >= Build.VERSION_CODES.M) {
 			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioFormatChoice", new AudioFormatHook(1));
 		} else if (version >= Build.VERSION_CODES.KITKAT) {
 			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "getAudioFormat", new AudioFormatHook(MediaRecorder.OutputFormat.MPEG_4));

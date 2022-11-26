@@ -24,10 +24,7 @@ class OnStateChangeHook extends MethodHook {
 	OnStateChangeHook() {
 		final int version = Build.VERSION.SDK_INT;
 
-		if (version > Build.VERSION_CODES.S_V2) {
-			// not support
-			recordButtonFieldName = null;
-		} else if (version >= Build.VERSION_CODES.O) {
+		if (version >= Build.VERSION_CODES.O) {
 			recordButtonFieldName = "button";
 		} else if (version >= Build.VERSION_CODES.N_MR1) {
 			recordButtonFieldName = "mCallRecordButton";
