@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
-		android:title="@string/pref_title_side_effect"
+		android:title="@string/pref_title_module"
 		>
+		<Preference
+			android:title="@string/pref_title_module_scope"
+			android:summary="@string/pref_summery_module_scope"
+			/>
 		<Preference
 			android:title="@string/pref_title_side_effect"
 			android:summary="@string/pref_summery_side_effect"

@@ -16,6 +16,9 @@
 	<string name="pref_title_aac_format">Use AAC Format</string>
 	<string name="pref_summery_aac_format">Use AAC Audio Encoding and Output .m4a Files</string>
 	<string name="pref_title_recording_file">Recording File</string>
+	<string name="pref_title_module">Module</string>
+	<string name="pref_title_module_scope">Module Scope</string>
+	<string name="pref_summery_module_scope">You should enable this module for Phone app (com.android.dialer).</string>
 	<string name="pref_title_side_effect">SELinux Warning!</string>
 	<string name="pref_summery_side_effect">Due to the limitation by SELinux, all options on this screen may have <b>NO EFFECT</b>.\nOptions are saved in SharedPreferences which is private to this Xposed module. When the Dialer app reads these options, SELinux will deny such operation, which results in <b>NO EFFECT</b>.\nBut the recording can still work as these options at their default value.</string>
 	<string name="pref_title_recording_folder">Recoding Folder</string>
