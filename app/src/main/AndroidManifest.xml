@@ -20,6 +20,10 @@
 			android:name="xposeddescription"
 			android:value="@string/app_description"
 			/>
+		<meta-data
+			android:name="xposedscope"
+			android:value="com.android.dialer"
+			/>
 
 		<activity
 			android:name=".SettingsActivity"
