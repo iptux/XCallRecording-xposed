@@ -45,7 +45,17 @@ public class CallRecording implements IXposedHookLoadPackage {
 			callButtonFragment = CALL_BUTTON_FRAGMENT;
 		}
 
-		findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "isEnabled", Context.class, new IsEnabledHook());
+		try {
+			findAndHookMethod(callRecordingServiceName, lpparam.classLoader, "isEnabled", Context.class, new IsEnabledHook());
+		} catch (Throwable e) {
+			// CallRecorderService.isEnabled(context) may get inlined and not present
+		}
+
+		try {
+			findAndHookMethod(callRecordingListener, lpparam.classLoader, "isEnabled", new IsEnabledHook());
+		} catch (Throwable e) {
+			// instead, try to hook CallRecorder.isEnabled()
+		}
 
 		try {
 			// This method is used in place of isEnabled in later versions
